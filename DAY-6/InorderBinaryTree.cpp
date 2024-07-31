@@ -11,30 +11,24 @@
  */
 class Solution {
     private:
-    bool check(TreeNode* root,int sum,int target){
-        if(sum == target && root->left==NULL && root->right==NULL){
-            return true;
-        }
-      
-        int ans = sum;
-        bool flag1 = false;
-        bool flag2 = false;
+    void inorder(TreeNode* root,vector<int> &ans){
         if(root->left!=NULL){
-             sum = sum+root->left->val;
-             flag1 = check(root->left,sum,target);
+            inorder(root->left,ans);
         }
+        ans.push_back(root->val);
         if(root->right!=NULL){
-             ans = ans+root->right->val;
-            flag2 = check(root->right,ans,target);
+            inorder(root->right,ans);
         }
-        return flag1 || flag2;
+
     }
 public:
-    bool hasPathSum(TreeNode* root, int targetSum) {
+    vector<int> inorderTraversal(TreeNode* root) {
+        
+        vector<int> ans;
         if(root==NULL){
-            return false;
+            return ans;
         }
-        int sum = root->val;
-        return check(root,sum,targetSum);
+        inorder(root,ans);
+        return ans;
     }
 };
