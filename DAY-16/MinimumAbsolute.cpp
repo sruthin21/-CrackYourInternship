@@ -10,34 +10,25 @@
  * };
  */
 class Solution {
-
 public:
-    bool leaf(TreeNode* node){
-        if(node->left == NULL && node->right==NULL){
-            return true;
+    void inorder(TreeNode* root,int &mini,int &prev){
+        if(root==NULL){
+            return;
         }
-        return false;
+        inorder(root->left,mini,prev);
+        if(prev==-1){
+            prev = root->val;
+        }
+        else{
+             mini = min(mini,abs(prev-root->val));
+             prev = root->val;
+        }
+        inorder(root->right,mini,prev);
     }
-    int sumOfLeftLeaves(TreeNode* root) {
-        if(root==NULL || (root->left==NULL && root->right==NULL)){
-            return 0;
-        }
-        queue<TreeNode*> q;
-        q.push(root);
-        int sum = 0;
-        while(!q.empty()){
-            TreeNode* temp = q.front();
-            q.pop();
-            if(temp->left){
-                if(leaf(temp->left)){
-                    sum = sum+temp->left->val;
-                }
-                q.push(temp->left);
-            }
-            if(temp->right){
-                q.push(temp->right);
-            }
-        }
-        return sum;
+    int getMinimumDifference(TreeNode* root) {
+        int mini = INT_MAX;
+        int prev = -1;
+        inorder(root,mini,prev);
+        return mini;
     }
 };
